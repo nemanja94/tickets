@@ -1,20 +1,28 @@
 import { getTicketById } from "@/actions/ticket.actions";
 import { logEvent } from "@/utils/sentry";
-import { getPriorityColor } from "@/utils/ui";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getPriorityColor } from "@/utils/ui";
+import CloseTicketButton from "@/components/CloseTicketButton";
+import { getCurrentUser } from "@/lib/current-user";
 
 const TicketDetailsPage = async (props: {
   params: Promise<{ id: string }>;
 }) => {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
   const { id } = await props.params;
   const ticket = await getTicketById(id);
 
   if (!ticket) {
-    return notFound;
+    notFound();
   }
 
-  logEvent("Viewing ticket details", "ticket", { ticketID: ticket.id }, "info");
+  logEvent("Viewing ticket details", "ticket", { ticketId: ticket.id }, "info");
 
   return (
     <div className="min-h-screen bg-blue-50 p-8">
@@ -43,12 +51,12 @@ const TicketDetailsPage = async (props: {
           ← Back to Tickets
         </Link>
 
-        {/* {ticket.status !== "Closed" && (
+        {ticket.status !== "Closed" && (
           <CloseTicketButton
             ticketId={ticket.id}
             isClosed={ticket.status === "Closed"}
           />
-        )} */}
+        )}
       </div>
     </div>
   );

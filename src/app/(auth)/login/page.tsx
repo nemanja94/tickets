@@ -1,10 +1,7 @@
+import LoginForm from "./login-form";
+
 const LoginPage = () => {
-  return (
-    <div>
-      <h1>Login</h1>
-      {/* Add your login form here */}
-    </div>
-  );
+  return <LoginForm />;
 };
 
 export default LoginPage;
