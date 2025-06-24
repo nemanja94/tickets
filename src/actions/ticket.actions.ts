@@ -23,6 +23,8 @@ export async function createTicket(
     const subject = formData.get("subject") as string;
     const description = formData.get("description") as string;
     const priority = formData.get("priority") as string;
+    const importCheckItems = formData.get("importCheckItems") as string;
+    const exportCheckItems = formData.get("exportCheckItems") as string;
 
     if (!subject || !description || !priority) {
       logEvent(
@@ -45,6 +47,8 @@ export async function createTicket(
         subject,
         description,
         priority,
+        importCheckItems,
+        exportCheckItems,
         user: {
           connect: { id: user.id },
         }
@@ -86,7 +90,7 @@ export async function getTickets() {
     }
 
     const tickets = await prisma.ticket.findMany({
-      where: { userId: user.id },
+      // where: { userId: user.id },
       orderBy: { createdAt: "desc" },
     });
 

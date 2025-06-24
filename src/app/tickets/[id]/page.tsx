@@ -44,6 +44,61 @@ const TicketDetailsPage = async (props: {
           <p>{new Date(ticket.createdAt).toLocaleString()}</p>
         </div>
 
+        <div className="flex flex-col gap-2">
+          {ticket.importCheckItems && (
+            <div className="bg-blue-50 border border-blue-200 rounded px-3 py-2 text-sm text-blue-800 flex items-center gap-2">
+              <span className="font-semibold">Import Check Items:</span>
+              <span className="font-mono">
+                {(() => {
+                  try {
+                    const items =
+                      typeof ticket.importCheckItems === "string"
+                        ? JSON.parse(ticket.importCheckItems)
+                        : ticket.importCheckItems;
+                    return (
+                      Object.entries(items)
+                        .filter(([, val]) => val && typeof val === "object" && "status" in val)
+                        .map(([key, val]) => {
+                          const v = val as { status: boolean };
+                          return `${key}: ${v.status ? "✔️" : "❌"}`;
+                        })
+                        .join(", ") || "None"
+                    );
+                  } catch {
+                    return String(ticket.importCheckItems);
+                  }
+                })()}
+              </span>
+            </div>
+          )}
+          {ticket.exportCheckItems && (
+            <div className="bg-green-50 border border-green-200 rounded px-3 py-2 text-sm text-green-800 flex items-center gap-2">
+              <span className="font-semibold">Export Check Items:</span>
+              <span className="font-mono">
+                {(() => {
+                  try {
+                    const items =
+                      typeof ticket.exportCheckItems === "string"
+                        ? JSON.parse(ticket.exportCheckItems)
+                        : ticket.exportCheckItems;
+                    return (
+                      Object.entries(items)
+                        .filter(([, val]) => val && typeof val === "object" && "status" in val)
+                        .map(([key, val]) => {
+                          const v = val as { status: boolean };
+                          return `${key}: ${v.status ? "✔️" : "❌"}`;
+                        })
+                        .join(", ") || "None"
+                    );
+                  } catch {
+                    return String(ticket.exportCheckItems);
+                  }
+                })()}
+              </span>
+            </div>
+          )}
+        </div>
+
         <Link
           href="/tickets"
           className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"

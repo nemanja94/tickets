@@ -4,13 +4,49 @@ import { createTicket } from "@/actions/ticket.actions";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+import { useState } from "react";
+
+type ImportCheckItems = {
+  [key: string]: {
+    description?: string;
+    status: boolean;
+  };
+};
+
+type ExportCheckItems = {
+  [key: string]: {
+    description?: string;
+    status: boolean;
+  };
+};
+
+const initialImportCheckItems: ImportCheckItems = {
+  importCheckitem1: { description: "", status: false },
+  importCheckitem2: { description: "", status: false },
+  importCheckitem3: { description: "", status: false },
+  importCheckitem4: { description: "", status: false },
+  importCheckitem5: { description: "", status: false },
+};
+
+const initialExportCheckItems: ExportCheckItems = {
+  exportCheckitem1: { description: "", status: false },
+  exportCheckitem2: { description: "", status: false },
+  exportCheckitem3: { description: "", status: false },
+  exportCheckitem4: { description: "", status: false },
+  exportCheckitem5: { description: "", status: false },
+};
 
 const NewTicketForm = () => {
   const [state, formAction] = useActionState(createTicket, {
     success: false,
     message: "",
   });
-
+  const [importCheckItems, setImportCheckItems] = useState(
+    initialImportCheckItems
+  );
+  const [exportCheckItems, setExportCheckItems] = useState(
+    initialExportCheckItems
+  );
   const router = useRouter();
 
   useEffect(() => {
@@ -20,6 +56,24 @@ const NewTicketForm = () => {
     }
   }, [state.success, router]);
 
+  const handleCheckboxChange = (
+    type: "import" | "export",
+    key: string,
+    checked: boolean
+  ) => {
+    if (type === "import") {
+      setImportCheckItems((prev) => ({
+        ...prev,
+        [key]: { ...prev[key], status: checked },
+      }));
+    } else {
+      setExportCheckItems((prev) => ({
+        ...prev,
+        [key]: { ...prev[key], status: checked },
+      }));
+    }
+  };
+
   return (
     <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8 border border-gray-200">
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
@@ -28,7 +82,14 @@ const NewTicketForm = () => {
       {state.message && !state.success && (
         <p className="text-red-500 mb-4 text-center">{state.message}</p>
       )}
-      <form action={formAction} className="space-y-4 text-gray-700">
+      <form
+        action={async (formData) => {
+          formData.append("importCheckItems", JSON.stringify(importCheckItems));
+          formData.append("exportCheckItems", JSON.stringify(exportCheckItems));
+          formAction(formData);
+        }}
+        className="space-y-4 text-gray-700"
+      >
         <input
           className="w-full border border-gray-200 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           type="text"
@@ -50,6 +111,42 @@ const NewTicketForm = () => {
           <option value="Medium">Medium Priority</option>
           <option value="High">High Priority</option>
         </select>
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold text-gray-800">
+            Import Check Items
+          </h3>
+          {Object.entries(importCheckItems).map(([key, item]) => (
+            <div key={key} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                name={key}
+                checked={item.status}
+                onChange={(e) =>
+                  handleCheckboxChange("import", key, e.target.checked)
+                }
+              />
+              <label htmlFor={key}>{key}</label>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold text-gray-800">
+            Export Check Items
+          </h3>
+          {Object.entries(exportCheckItems).map(([key, item]) => (
+            <div key={key} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                name={key}
+                checked={item.status}
+                onChange={(e) =>
+                  handleCheckboxChange("export", key, e.target.checked)
+                }
+              />
+              <label htmlFor={key}>{key}</label>
+            </div>
+          ))}
+        </div>
         <button
           className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition disabled:opacity-50"
           type="submit"

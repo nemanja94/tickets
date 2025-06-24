@@ -30,6 +30,7 @@ const TicketItem = ({ ticket }: TicketItemProps) => {
             {ticket.priority}
           </span>
         </div>
+
         <Link
           href={`/tickets/${ticket.id}`}
           className={`inline-block mt-2 text-sm px-3 py-1 rounded transition text-center ${
