@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { useState } from "react";
+import CheckItemList from "@/components/CheckItemList";
 
 type ImportCheckItems = {
   [key: string]: {
@@ -111,42 +112,12 @@ const NewTicketForm = () => {
           <option value="Medium">Medium Priority</option>
           <option value="High">High Priority</option>
         </select>
-        <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-gray-800">
-            Import Check Items
-          </h3>
-          {Object.entries(importCheckItems).map(([key, item]) => (
-            <div key={key} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                name={key}
-                checked={item.status}
-                onChange={(e) =>
-                  handleCheckboxChange("import", key, e.target.checked)
-                }
-              />
-              <label htmlFor={key}>{key}</label>
-            </div>
-          ))}
-        </div>
-        <div className="space-y-2">
-          <h3 className="text-lg font-semibold text-gray-800">
-            Export Check Items
-          </h3>
-          {Object.entries(exportCheckItems).map(([key, item]) => (
-            <div key={key} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                name={key}
-                checked={item.status}
-                onChange={(e) =>
-                  handleCheckboxChange("export", key, e.target.checked)
-                }
-              />
-              <label htmlFor={key}>{key}</label>
-            </div>
-          ))}
-        </div>
+        <CheckItemList
+          items={importCheckItems}
+          type="import"
+          onChange={handleCheckboxChange}
+          title="Import Check Items"
+        />
         <button
           className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition disabled:opacity-50"
           type="submit"
