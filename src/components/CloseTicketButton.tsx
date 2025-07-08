@@ -35,7 +35,7 @@ const CloseTicketButton = ({
         type="submit"
         className="bg-red-500 text-white px-3 py-3 w-full rounded hover:bg-red-600 transition"
       >
-        Close Ticket
+        Zatvori tiket
       </button>
     </form>
   );

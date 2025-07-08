@@ -25,7 +25,7 @@ const TicketItem = ({ ticket }: TicketItemProps) => {
       {/* Right Side */}
       <div className="text-right space-y-2">
         <div className="text-sm text-gray-500">
-          Priority:{" "}
+          Prioritet:{" "}
           <span className={getPriorityColor(ticket.priority)}>
             {ticket.priority}
           </span>
@@ -39,7 +39,7 @@ const TicketItem = ({ ticket }: TicketItemProps) => {
               : "bg-blue-600 text-white hover:bg-blue-700 "
           }`}
         >
-          View Ticket
+          Detalji
         </Link>
       </div>
     </div>

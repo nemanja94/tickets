@@ -1,10 +1,10 @@
 export const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case "Low":
+    case "Nizak":
       return "text-green-600 font-bold";
-    case "Medium":
+    case "Srednji":
       return "text-yellow-600 font-bold";
-    case "High":
+    case "Visok":
       return "text-red-600 font-bold";
     default:
       return "bg-gray-500";

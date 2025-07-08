@@ -23,10 +23,11 @@ export async function createTicket(
     const subject = formData.get("subject") as string;
     const description = formData.get("description") as string;
     const priority = formData.get("priority") as string;
+    const chassisNumber = formData.get("chassisNumber") as string;
     const importCheckItems = formData.get("importCheckItems") as string;
     const exportCheckItems = formData.get("exportCheckItems") as string;
 
-    if (!subject || !description || !priority) {
+    if (!subject || !description || !priority || !chassisNumber) {
       logEvent(
         "Validation Error: Missing ticket data",
         "ticket",
@@ -47,6 +48,7 @@ export async function createTicket(
         subject,
         description,
         priority,
+        chassisNumber,
         importCheckItems,
         exportCheckItems,
         user: {

@@ -10,7 +10,7 @@ const Navbar = async () => {
     <nav className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
       <div>
         <Link href="/" className="text-xl font-bold text-blue-600">
-          QuickTicket
+          ArtAuto
         </Link>
       </div>
       <div className="flex items-center space-x-4">
@@ -20,13 +20,13 @@ const Navbar = async () => {
               href="/tickets/new"
               className="hover:underline text-gray-700 transition"
             >
-              New Ticket
+              Novi tiket
             </Link>
             <Link
               href="/tickets"
               className="hover:underline text-gray-700 transition"
             >
-              My Tickets
+              Moji tiketi
             </Link>
             <LogoutButton />
           </>
@@ -36,8 +36,9 @@ const Navbar = async () => {
               href="/login"
               className="text-blue-600 hover:underline transition"
             >
-              Login
-            </Link>
+              Prijava
+              </Link>
+              {/* TODO - Uklonit registraciju */}
             <Link
               href="/register"
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"

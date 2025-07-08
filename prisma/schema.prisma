@@ -23,6 +23,7 @@ model Ticket {
   subject          String
   description      String
   priority         String
+  chassisNumber    String
   importCheckItems Json
   exportCheckItems Json
   status           String   @default("Open")
