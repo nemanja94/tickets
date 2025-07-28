@@ -7,7 +7,7 @@ const TicketsPage = async () => {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/");
   }
 
   const tickets = await getTickets();

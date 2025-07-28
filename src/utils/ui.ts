@@ -1,7 +1,7 @@
 export const getPriorityColor = (priority: string) => {
   switch (priority) {
     case "Nizak":
-      return "text-green-600 font-bold";
+      return "text-zinc-600 font-bold";
     case "Srednji":
       return "text-yellow-600 font-bold";
     case "Visok":
