@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { getPriorityColor } from "@/utils/ui";
 import CloseTicketButton from "@/components/CloseTicketButton";
 import { getCurrentUser } from "@/lib/current-user";
+import CheckItemsList from "@/components/CheckItemsList.compontent";
 
 const TicketDetailsPage = async (props: {
   params: Promise<{ id: string }>;
@@ -47,61 +48,21 @@ const TicketDetailsPage = async (props: {
         <div className="flex flex-col gap-2">
           {ticket.importCheckItems && (
             <div className="bg-blue-50 border border-blue-200 rounded px-3 py-2 text-sm text-blue-800">
-              <span className="font-semibold block mb-1">Ulazni spisak provera:</span>
+              <span className="font-semibold block mb-1">
+                Spisak provera na ulazu:
+              </span>
               <ul className="flex flex-wrap gap-2">
-                {(() => {
-                  try {
-                    const items =
-                      typeof ticket.importCheckItems === "string"
-                        ? JSON.parse(ticket.importCheckItems)
-                        : ticket.importCheckItems;
-                    return (
-                      Object.entries(items)
-                        .filter(([, val]) => val && typeof val === "object" && "status" in val)
-                        .map(([key, val]) => {
-                          const v = val as { status: boolean };
-                          return (
-                            <li key={key} className="flex items-center gap-1 px-2 py-1 rounded bg-white border border-blue-200">
-                              <span className="font-mono">{key}:</span>
-                              <span>{v.status ? "✔️" : "❌"}</span>
-                            </li>
-                          );
-                        })
-                    );
-                  } catch {
-                    return <li>{String(ticket.importCheckItems)}</li>;
-                  }
-                })()}
+                <CheckItemsList data={ticket.importCheckItems} />
               </ul>
             </div>
           )}
           {ticket.exportCheckItems && (
             <div className="bg-green-50 border border-green-200 rounded px-3 py-2 text-sm text-green-800">
-              <span className="font-semibold block mb-1">Izlazni spisak provera:</span>
+              <span className="font-semibold block mb-1">
+                Spisak provera na izlazu:
+              </span>
               <ul className="flex flex-wrap gap-2">
-                {(() => {
-                  try {
-                    const items =
-                      typeof ticket.exportCheckItems === "string"
-                        ? JSON.parse(ticket.exportCheckItems)
-                        : ticket.exportCheckItems;
-                    return (
-                      Object.entries(items)
-                        .filter(([, val]) => val && typeof val === "object" && "status" in val)
-                        .map(([key, val]) => {
-                          const v = val as { status: boolean };
-                          return (
-                            <li key={key} className="flex items-center gap-1 px-2 py-1 rounded bg-white border border-green-200">
-                              <span className="font-mono">{key}:</span>
-                              <span>{v.status ? "✔️" : "❌"}</span>
-                            </li>
-                          );
-                        })
-                    );
-                  } catch {
-                    return <li>{String(ticket.exportCheckItems)}</li>;
-                  }
-                })()}
+                <CheckItemsList data={ticket.exportCheckItems} />
               </ul>
             </div>
           )}
